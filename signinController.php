@@ -36,23 +36,18 @@ $password = mysqli_real_escape_string($con, $_POST['password']);
                 $result = mysqli_query($con, $query);
                 $row = mysqli_fetch_assoc($result);
 
-                if ($row && $row['password'] === $password && $row['status'] == 0) {
-                    $_SESSION['valid'] = $row['username'];
-                    $_SESSION['email'] = $row['email'];
-                    $_SESSION['id'] = $row['id'];
-                    $_SESSION['status'] = $row['status'];
+                if($row && $row['password'] === $password) {
+                    $_SESSION['username'] = $row['username'];
+                    $_SESSION['role'] = $row['role'];
 
-                    header("Location: homeCust.php");
-
-                } elseif ($row && $row['password'] === $password && $row['status'] == 1) {
-                    $_SESSION['valid'] = $row['username'];
-                    $_SESSION['email'] = $row['email'];
-                    $_SESSION['id'] = $row['id'];
-                    $_SESSION['status'] = $row['status'];
-
-                    header("Location: homeAdmin.php");
-
-                } else {
+                    if($row['role'] == 'admin') {
+                        header("Location: homeAdmin.php");
+                    }
+                    else {
+                        header("Location: homeCust.php");
+                    }
+                }
+                else {
                     echo "<div class='alert alert-danger' role='alert'>Wrong username or password</div>";
                     echo "<a href='signin.php'><button class='btn'>Try Again</button>";
                 }

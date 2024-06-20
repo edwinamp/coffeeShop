@@ -1,10 +1,12 @@
 <?php
 include "config.php";
 
-$username = $_POST['username'];
-$email = $_POST['email'];
-$password = $_POST['password'];
-
+if(isset($_POST['submit'])){
+    $username = $_POST['username'];
+    $email = $_POST['email'];
+    $password = $_POST['password'];
+    $role = 'customer';
+}
 ?>
 
 <!DOCTYPE html>
@@ -42,7 +44,7 @@ $password = $_POST['password'];
             }
 
             else {
-                mysqli_query($con, "INSERT INTO users (username, email, password) VALUES ('$username', '$email', '$password')");
+                mysqli_query($con, "INSERT INTO users (username, email, password, role) VALUES ('$username', '$email', '$password', '$role')");
                 echo "<div class='alert alert-success' role='alert'>Registration Succesfully!</div>";
                 echo "<a href='signin.php'><button class='btn'>Login</button>";                
             }

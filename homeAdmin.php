@@ -26,15 +26,10 @@
                     <div class="offcanvas-body">
                         <ul class="navbar-nav justify-content-center flex-grow-1 pe-3">
                             <li class="nav-item"><a class="nav-link mx-lg-2 active" aria-current="page" id="home-link" href="#home">Home</a></li>
-<<<<<<< HEAD
-                            <li class="nav-item"><a class="nav-link mx-lg-2" id="favorite-link" href="manageMenu.php">Menu</a></li>
-                            <li class="nav-item"><a class="nav-link mx-lg-2" id="reservation-link" href="booking.php">Reservation</a></li>
-                            <li class="nav-item"><a class="nav-link mx-lg-2" id="delivery-link" href="orders.php">Delivery</a></li>
-=======
-                            <li class="nav-item"><a class="nav-link mx-lg-2" id="menuInfoHome-link" href="#menuInfoHome">Menu</a></li>
+                            <li class="nav-item"><a class="nav-link mx-lg-2" id="menuInfoHome-link" 
+                            href="#menuInfoHome">Menu</a></li>
                             <li class="nav-item"><a class="nav-link mx-lg-2" id="reservationInfoHome-link" href="#reservationInfoHome">Reservation</a></li>
                             <li class="nav-item"><a class="nav-link mx-lg-2" id="deliveryInfoHome-link" href="#deliveryInfoHome">Delivery</a></li>
->>>>>>> c442ea00008bbe1a33f40c07be5c149a6c3b4424
                         </ul>
                     </div>
                 </div>
