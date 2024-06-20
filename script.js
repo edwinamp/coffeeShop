@@ -4,16 +4,16 @@ document.addEventListener('DOMContentLoaded', function () {
 
     if (signinForm) {
         signinForm.addEventListener('submit', function(event) {
-            event.preventDefault(); 
-            window.location.href = 'index.html'; // Arahkan ke halaman home setelah login
+            //event.preventDefault(); 
+            //window.location.href = 'index.html'; // Arahkan ke halaman home setelah login
         });
     }
 
     if (signupForm) {
         signupForm.addEventListener('submit', function(event) {
-            event.preventDefault(); // Prevent form from submitting normally
+            //event.preventDefault(); // Prevent form from submitting normally
             // Here, you can add your AJAX call to register the user
-            window.location.href = 'profileForm.html';
+            // window.location.href = 'profileForm.html';
         });
     }
 
@@ -92,8 +92,6 @@ document.addEventListener('DOMContentLoaded', () => {
             alert("Your cart is empty. Please add items to your cart before placing an order.");
             return;
         }
-
-        alert('Your order is placed! Thank you for buying and enjoy your coffee!');
         let orderDetails = [];
 
         // Loop through all cart boxes to get details
@@ -107,23 +105,25 @@ document.addEventListener('DOMContentLoaded', () => {
             orderDetails.push({ title: title, price: priceValue, quantity: quantity, subtotal_amount: subtotalAmount });
         }
 
+        // Generate a unique order code (could use timestamp or a random string)
+        let orderCode = Date.now();
+
         // Send data to server using AJAX
         let xhr = new XMLHttpRequest();
-        xhr.open("POST", "add_to_database.php", true);
+        xhr.open("POST", "checkout.php", true);
         xhr.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
         xhr.onreadystatechange = function() {
             if (xhr.readyState === 4 && xhr.status === 200) {
                 console.log(xhr.responseText);
+                alert('Your order is placed! Thank you for buying and enjoy your coffee!');
+                // Clear cart after sending data to server
+                while (cartContent.hasChildNodes()) {
+                    cartContent.removeChild(cartContent.firstChild);
+                }
+                updateTotal();
             }
         };
-        xhr.send(JSON.stringify(orderDetails));
-        cartItem.classList.remove('active');
-
-        // Clear cart after sending data to server
-        while (cartContent.hasChildNodes()) {
-            cartContent.removeChild(cartContent.firstChild);
-        }
-        updateTotal();
+        xhr.send(JSON.stringify({ orderCode: orderCode, orderDetails: orderDetails }));
     }
 
     // Function for "Remove Items from Cart"
@@ -149,8 +149,24 @@ document.addEventListener('DOMContentLoaded', () => {
         let title = shopProducts.getElementsByClassName("product-title")[0].innerText;
         let price = shopProducts.getElementsByClassName("price")[0].innerText;
         let productImg = shopProducts.getElementsByClassName("product-img")[0].src;
-        addProductToCart(title, price, productImg);
-        updateTotal();
+        let productId = button.getAttribute("data-id");
+
+        // Check stock
+        let xhr = new XMLHttpRequest();
+        xhr.open("POST", "check_stock.php", true);
+        xhr.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
+        xhr.onreadystatechange = function() {
+            if (xhr.readyState === 4 && xhr.status === 200) {
+                let response = JSON.parse(xhr.responseText);
+                if (response.stock > 0) {
+                    addProductToCart(title, price, productImg, productId);
+                    updateTotal();
+                } else {
+                    alert("This product is out of stock!");
+                }
+            }
+        };
+        xhr.send("id=" + productId);
     }
 
     function addProductToCart(title, price, productImg) {

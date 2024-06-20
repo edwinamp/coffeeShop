@@ -105,37 +105,42 @@
 
         <!-- Menu Based on Category -->
         <?php
-        include 'config.php';
-        $categoriesQuery = "SELECT DISTINCT kategori FROM daftar_menu";
-        $categoriesResult = mysqli_query($con, $categoriesQuery);
-        while ($kategori = mysqli_fetch_assoc($categoriesResult)) {
-            $categoryName = $kategori['kategori'];
-            echo "<section class='deliveryMenu-{$categoryName}' id='deliveryMenu-{$categoryName}'>";
-            echo "<div class='heading'>";
-            echo "<span>{$categoryName} Selection</span>";
-            echo "<h1>\"Enjoy our delicious {$categoryName}\"</h1>";
-            echo "</div>";
-            echo "<div class='box-container'>";
-            echo "<div class='row'>";
-
-            $menuQuery = "SELECT * FROM daftar_menu WHERE kategori = '$categoryName'";
-            $menuResult = mysqli_query($con, $menuQuery);
-            while ($menu = mysqli_fetch_assoc($menuResult)) {
-                echo "<div class='col-md-4 mb-4'>";
-                echo "<div class='box' id='box{$menu['idMenu']}'>";
-                echo "<img src='img/{$menu['gambar']}' alt='' class='product-img'>";
-                echo "<h3 class='product-title'>{$menu['namaMenu']}</h3>";
-                echo "<div class='price'>Rp {$menu['harga']}</div>";
-                echo "<a class='btn add-cart' onclick='redirectCart()'>Add to Cart</a>";
+            include 'config.php';
+            $categoriesQuery = "SELECT DISTINCT kategori FROM daftar_menu";
+            $categoriesResult = mysqli_query($con, $categoriesQuery);
+            while ($kategori = mysqli_fetch_assoc($categoriesResult)) {
+                $categoryName = $kategori['kategori'];
+                echo "<section class='deliveryMenu-{$categoryName}' id='deliveryMenu-{$categoryName}'>";
+                echo "<div class='heading'>";
+                echo "<span>{$categoryName} Selection</span>";
+                echo "<h1>\"Enjoy our delicious {$categoryName}\"</h1>";
                 echo "</div>";
-                echo "</div><br />";
+                echo "<div class='box-container'>";
+                echo "<div class='row'>";
+            
+                $menuQuery = "SELECT * FROM daftar_menu WHERE kategori = '$categoryName'";
+                $menuResult = mysqli_query($con, $menuQuery);
+                while ($menu = mysqli_fetch_assoc($menuResult)) {
+                    echo "<div class='col-md-4 mb-4'>";
+                    echo "<div class='box' id='box{$menu['idMenu']}'>";
+                    echo "<img src='img/{$menu['gambar']}' alt='' class='product-img'>";
+                    echo "<h3 class='product-title'>{$menu['namaMenu']}</h3>";
+                    echo "<div class='price'>Rp {$menu['harga']}</div>";
+                    if ($menu['stok'] > 0) {
+                        echo "<a class='btn add-cart' data-id='{$menu['idMenu']}'>Add to Cart</a>";
+                    } else {
+                        echo "<a class='btn btn-secondary' disabled>Out of Stock</a>";
+                    }
+                    echo "</div>";
+                    echo "</div><br />";
+                }
+            
+                echo "</div>";
+                echo "</div>";
+                echo "</section>";
             }
-
-            echo "</div>";
-            echo "</div>";
-            echo "</section>";
-        }
         ?>
+
 
         <!-- CART SECTION -->
         <div class="floating-container">
