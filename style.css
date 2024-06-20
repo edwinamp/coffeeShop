@@ -162,11 +162,8 @@ body.left, body.right{
 }
 
 /*profile*/
-.containerProfile {
-  width: 30%;
-}
-.profileBox{
-  padding: 70px;
+.profileContainer {
+  padding-top: 100px;
 }
 
 /*home cover*/
@@ -501,7 +498,7 @@ section.menuCarousel{
 }
 
 section.deliveryCarousel{
-  padding: 90px 10% 0px 10%;
+  padding: 90px 10% 0px 10%;
 }
 
 .box-container {

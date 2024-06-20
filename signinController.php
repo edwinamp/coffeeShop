@@ -1,5 +1,6 @@
 <?php
 include "config.php";
+session_start();
 
 $username = mysqli_real_escape_string($con, $_POST['username']);
 $password = mysqli_real_escape_string($con, $_POST['password']);
@@ -35,19 +36,22 @@ $password = mysqli_real_escape_string($con, $_POST['password']);
                 $query = "SELECT * FROM users WHERE username='$username'";
                 $result = mysqli_query($con, $query);
                 $row = mysqli_fetch_assoc($result);
-
-                if($row && $row['password'] === $password) {
+                
+                if ($row && $row['password'] === $password) {
+                    $_SESSION['id'] = $row['id'];
                     $_SESSION['username'] = $row['username'];
+                    $_SESSION['email'] = $row['email'];
+                    $_SESSION['fullname'] = $row['fullname'];
+                    $_SESSION['phone'] = $row['phone'];
+                    $_SESSION['address'] = $row['address'];
                     $_SESSION['role'] = $row['role'];
-
-                    if($row['role'] == 'admin') {
+                
+                    if ($row['role'] == 'admin') {
                         header("Location: homeAdmin.php");
-                    }
-                    else {
+                    } else {
                         header("Location: homeCust.php");
                     }
-                }
-                else {
+                } else {
                     echo "<div class='alert alert-danger' role='alert'>Wrong username or password</div>";
                     echo "<a href='signin.php'><button class='btn'>Try Again</button>";
                 }

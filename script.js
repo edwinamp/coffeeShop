@@ -218,3 +218,55 @@ document.addEventListener('DOMContentLoaded', () => {
 
     ready();
 });
+
+// PROFILE
+document.addEventListener('DOMContentLoaded', function() {
+    const profileForm = document.getElementById('profileForm');
+    const updateButton = document.getElementById('update-button');
+
+    // Fetch and display user profile data
+    fetchProfileData();
+
+    // Function to fetch user profile data
+    function fetchProfileData() {
+        fetch('profile.php')
+            .then(response => response.json())
+            .then(data => {
+                document.getElementById('username').textContent = data.username;
+                document.getElementById('email').textContent = data.email;
+                document.getElementById('fullname').textContent = data.fullname;
+                document.getElementById('phone').textContent = data.phone;
+                document.getElementById('address').textContent = data.address;
+            })
+            .catch(error => console.error('Error fetching profile data:', error));
+    }
+
+    // Update profile form submit handler
+    profileForm.addEventListener('submit', function(event) {
+        event.preventDefault();
+
+        let formData = new FormData(profileForm);
+        let updateURL = 'update_profile.php';
+
+        fetch(updateURL, {
+                method: 'POST',
+                body: formData
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.success) {
+                    alert(data.message);
+                    fetchProfileData(); // Refresh profile data after update
+                } else {
+                    alert('Failed to update profile');
+                }
+            })
+            .catch(error => console.error('Error updating profile:', error));
+    });
+
+    // Update button click handler (optional, if you want to allow direct updating without form submit)
+    updateButton.addEventListener('click', function() {
+        // Implement logic to enable fields for editing if needed
+        // This could involve toggling disabled attribute, showing input fields, etc.
+    });
+});
