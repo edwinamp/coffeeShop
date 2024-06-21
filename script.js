@@ -222,7 +222,7 @@ document.addEventListener('DOMContentLoaded', () => {
 // PROFILE
 document.addEventListener('DOMContentLoaded', function() {
     const profileForm = document.getElementById('profileForm');
-    const updateButton = document.getElementById('update-button');
+    const updateProfile = document.getElementById('updateProfile');
 
     // Fetch and display user profile data
     fetchProfileData();
@@ -245,8 +245,8 @@ document.addEventListener('DOMContentLoaded', function() {
     profileForm.addEventListener('submit', function(event) {
         event.preventDefault();
 
-        let formData = new FormData(profileForm);
-        let updateURL = 'update_profile.php';
+        let formData = new FormData(updateProfile);
+        let updateURL = 'updateProfile.php';
 
         fetch(updateURL, {
                 method: 'POST',
@@ -256,17 +256,30 @@ document.addEventListener('DOMContentLoaded', function() {
             .then(data => {
                 if (data.success) {
                     alert(data.message);
-                    fetchProfileData(); // Refresh profile data after update
+                    fetchProfileData();
                 } else {
                     alert('Failed to update profile');
                 }
             })
             .catch(error => console.error('Error updating profile:', error));
     });
+});
 
-    // Update button click handler (optional, if you want to allow direct updating without form submit)
-    updateButton.addEventListener('click', function() {
-        // Implement logic to enable fields for editing if needed
-        // This could involve toggling disabled attribute, showing input fields, etc.
+// LOGOUT
+document.addEventListener('DOMContentLoaded', function() {
+    const logoutButton = document.getElementById('logout-button');
+
+    logoutButton.addEventListener('click', function() {
+        fetch('logout.php', {
+            method: 'POST'
+        })
+        .then(response => {
+            if (response.ok) {
+                window.location.href = 'signin.php';
+            } else {
+                alert('Logout failed.');
+            }
+        })
+        .catch(error => console.error('Error:', error));
     });
 });

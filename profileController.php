@@ -2,7 +2,6 @@
 session_start();
 include "config.php";
 
-// Periksa apakah pengguna sudah login
 if (!isset($_SESSION['id'])) {
     header('Location: signin.php');
     exit;

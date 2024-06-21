@@ -7,6 +7,7 @@ if (!isset($_SESSION['id'])) {
     exit;
 }
 ?>
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -59,10 +60,10 @@ if (!isset($_SESSION['id'])) {
                                 <span class="form-control form-control-lg bg-light fs-6"><?php echo isset($_SESSION['address']) ? htmlspecialchars($_SESSION['address']) : ''; ?></span>
                             </div>
                             <div class="input-group mb-3">
-                                <button type="submit" name="submit" value="profile" class="btn w-30"><i class="fas fa-edit"></i> Update Information</button>
+                                <a href="profileForm.php" class="btn w-30"><i class="fas fa-edit"></i> Update Information</a>
                             </div>
                             <div class="input-group mb-3 justify-content-end">
-                                <button type="submit" name="submit" value="logout" class="btn btn-lg w-30 fs-6 Lightbtn end"><i class="fas fa-sign-out-alt"></i> Log-out</button>
+                                <button id="logout-button" type="submit" name="submit" value="logout" class="btn btn-lg w-30 fs-6 Lightbtn end"><i class="fas fa-sign-out-alt"></i> Log-out</button>
                             </div>
                         </div>
                     </form>                      
